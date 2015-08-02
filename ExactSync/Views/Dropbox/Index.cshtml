@@ -1,0 +1,59 @@
+﻿@model ExactSync.Models.DropboxAccountModel
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<div class="box">
+    <div class="box-header">
+        <h3 class="box-title">@Resources.Constant.DROPBOX_ACCOUNT_INFO</h3>
+    </div>
+    <div class="box-body table-responsive">
+        <table class="table">
+            @if (Model != null)
+            {
+                <tr>
+                    <td><div class="well-sm">@Html.DisplayNameFor(model => model.UID)</div></td>
+                    <td><div class="text-muted well well-sm no-shadow box-wrap">@Html.DisplayFor(model => model.UID)</div></td>
+                </tr>
+                <tr>
+                    <td><div class="well-sm">@Html.DisplayNameFor(model => model.TokenType)</div></td>
+                    <td><div class="text-muted well well-sm no-shadow box-wrap">@Html.DisplayFor(model => model.TokenType)</div></td>
+                </tr>
+                <tr>
+                    <td><div class="well-sm">@Html.DisplayNameFor(model => model.AccessToken)</div></td>
+                    <td><div class="text-muted well well-sm no-shadow box-wrap">@Html.DisplayFor(model => model.AccessToken)</div></td>
+                </tr>
+            }
+            else
+            {
+                <tr>
+                    <td colspan="2" class="text-center text-primary">@Resources.Constant.NO_RECORD_FOUND</td>
+                </tr>
+            }
+        </table>
+    </div> <!-- /.box-body -->
+</div> <!-- /.box -->
+
+<br />
+
+@if (Model != null)
+{
+    using (Html.BeginForm("Disconnect", "Dropbox", FormMethod.Post, new { id = "dropboxDisconnect", @class = "" }))
+    {
+        @Html.AntiForgeryToken()
+        <input type="hidden" name="id" value="@Html.DisplayFor(model => model.Id)" />
+        <button type="submit" class="btn btn-social btn-google-plus"><i class="fa fa-dropbox"></i> @Resources.Constant.DISCONNECT_DROPBOX</button>
+    }
+}
+else
+{
+    using (Html.BeginForm("Connect", "Dropbox", FormMethod.Post, new { id = "dropboxConnect", @class = "" }))
+    {
+        @Html.AntiForgeryToken()
+        <button type="submit" class="btn btn-social btn-dropbox"><i class="fa fa-dropbox"></i> @Resources.Constant.CONNECT_DROPBOX</button>
+    }
+}
+
+<br />
+<br />

@@ -1,0 +1,129 @@
+﻿@model PagedList.IPagedList<ExactSync.Models.SyncHistoryModel>
+@using PagedList.Mvc;
+
+@{
+    ViewBag.Title = "Index";
+
+    var TotalSync = (ViewData["TotalSync"] == null) ? "0" : ViewData["TotalSync"];
+    var TotalSuccess = (ViewData["TotalSuccess"] == null) ? "0" : ViewData["TotalSuccess"];
+    var TotalFail = (ViewData["TotalFail"] == null) ? "0" : ViewData["TotalFail"];
+}
+
+<!-- Info boxes -->
+<div class="row">
+    <div class="col-md-4 col-sm-4 col-xs-12">
+        <div class="info-box bg-aqua">
+            <span class="info-box-icon"><i class="fa fa-exchange"></i></span>
+            <div class="info-box-content">
+                <span class="info-box-text">@Resources.Constant.TOTAL_SYNC</span>
+                <span class="info-box-number">@TotalSync</span>
+            </div><!-- /.info-box-content -->
+        </div><!-- /.info-box -->
+    </div><!-- /.col -->
+
+    <div class="col-md-4 col-sm-4 col-xs-12">
+        <div class="info-box bg-green">
+            <span class="info-box-icon"><i class="fa fa-thumbs-o-up"></i></span>
+            <div class="info-box-content">
+                <span class="info-box-text">@Resources.Constant.TOTAL_SUCCESS</span>
+                <span class="info-box-number">@TotalSuccess</span>
+            </div><!-- /.info-box-content -->
+        </div><!-- /.info-box -->
+    </div><!-- /.col -->
+
+    <div class="col-md-4 col-sm-4 col-xs-12">
+        <div class="info-box bg-red">
+            <span class="info-box-icon"><i class="fa fa-thumbs-o-down"></i></span>
+            <div class="info-box-content">
+                <span class="info-box-text">@Resources.Constant.TOTAL_FAIL</span>
+                <span class="info-box-number">@TotalFail</span>
+            </div><!-- /.info-box-content -->
+        </div><!-- /.info-box -->
+    </div><!-- /.col -->
+</div><!-- /.row -->
+
+<br />
+
+<!-- table: sync history  -->
+<div class="box box-info">
+    <div class="box-header with-border">
+        <h3 class="box-title">@Resources.Constant.SYNC_HISTORY</h3>
+    </div><!-- /.box-header -->
+    <div class="box-body">
+        <div class="table-responsive">
+            <table class="table no-margin">
+                <thead>
+                    <tr>
+                        <th width="2%">&nbsp;</th>
+                        <th class="col-md-2">@Resources.Constant.DATE</th>
+                        <th class="col-md-2">@Resources.Constant.STATUS</th>
+                        <th class="col-md-1 text-center">@Resources.Constant.TOTAL_FILES</th>
+                        <th class="col-md-1">&nbsp;</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model != null && Model.Count() > 0)
+                    {
+                        var count = (Model.PageNumber == 1) ? 0 : (Model.PageNumber - 1) * Model.PageSize;
+
+                        foreach (var item in Model)
+                        {
+                            count++;
+                            <tr>
+                                <td style="white-space:nowrap" class="text-right">@count .</td>
+                                <td style="white-space:nowrap">@Html.DisplayFor(modelItem => item.DateTimeUtc)</td>
+                                @if (@item.Status)
+                                {
+                                    <td>
+                                        <span class="label label-success" style="display:inline-block; min-width: 60px; font-size: 88%;">
+                                            @Resources.Constant.SUCCESS
+                                        </span>
+                                    </td>
+                                }
+                                else if (!@item.Status && @item.TotalFiles == 0)
+                                {
+                                    <td>
+                                        <span class="label label-warning" style="display:inline-block; min-width: 60px; font-size: 88%;">
+                                            @Resources.Constant.PENDING
+                                        </span>
+                                    </td>
+                                }
+                                else
+                                {
+                                    <td>
+                                        <span class="label label-danger" style="display:inline-block; min-width: 60px; font-size: 88%;">
+                                            @Resources.Constant.FAIL
+                                        </span>
+                                    </td>
+                                }
+                                <td class="text-center">@Html.DisplayFor(modelItem => item.TotalFiles)</td>
+                                <td class="text-center">
+                                    <a href="@Url.Action("Detail", "Home", new { id = item.Id })" class="btn btn-sm btn-primary">
+                                        <i class="fa fa-eye"></i> &nbsp; <span>@Resources.Constant.DETAILS</span>
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="4" class="text-center text-primary">@Resources.Constant.NO_RECORD_FOUND</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div><!-- /.table-responsive -->
+        <br />
+        @if (Model.PageCount > 1)
+        {
+            var pageNum = (Model.PageCount < Model.PageNumber) ? 0 : Model.PageNumber;
+            var pageCount = Model.PageCount;
+
+            <span>@Resources.Constant.PAGE @pageNum @Resources.Constant.PAGE_OF @pageCount</span>
+            <div style="float:right;">
+                @Html.PagedListPager(Model, page => Url.Action("Index", new { page }))
+            </div>
+        }
+    </div><!-- /.box-body -->
+</div><!-- /.box -->

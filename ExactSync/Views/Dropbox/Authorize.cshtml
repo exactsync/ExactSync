@@ -1,0 +1,19 @@
+﻿@{
+    ViewBag.Title = "Authorize";
+}
+
+@if (ViewData["ErrorMessage"] == null)
+{
+    <div class="callout callout-success">
+        <p><i class="fa fa-check"></i> &nbsp; @Resources.Constant.DROPBOX_CONNECT_SUCCESS</p>
+    </div>
+}
+else
+{
+    <div class="callout callout-danger">
+        <p><i class="fa fa-times"></i> &nbsp; @Resources.Constant.DROPBOX_CONNECT_FAIL</p>
+        <span>@ViewData["ErrorMessage"]</span>
+    </div>
+}
+
+@Html.ActionLink(@Resources.Constant.BACK_DROPBOX, "Index", "Dropbox")

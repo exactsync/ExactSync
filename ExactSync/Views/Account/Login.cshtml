@@ -1,0 +1,64 @@
+﻿@using ExactSync.Models
+
+@model LoginViewModel
+
+@{
+    ViewBag.Title = "Log in";
+    ViewBag.BodyClass = "login-page";
+    Layout = "~/Views/Shared/_Layout2.cshtml";
+}
+
+<div class="login-box">
+
+    <div class="login-box-body">
+
+        <div class="login-logo">
+            <strong class="label label-danger">Exact</strong>&nbsp;<small>sync</small>
+        </div><!-- /.login-logo -->
+
+        <p class="login-box-msg">@Resources.Constant.LOCAL_LOGIN</p>
+
+        @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "", role = "form" }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+            <div class="form-group has-feedback">
+                @Html.TextBoxFor(m => m.Email, new { @class = "form-control", @placeholder = @Resources.Constant.EMAIL_ADDR })
+                <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+                @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+            </div>
+            <div class="form-group has-feedback">
+                @Html.PasswordFor(m => m.Password, new { @class = "form-control", @placeholder = @Resources.Constant.PASSWORD })
+                <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+                @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+            </div>
+            <div class="row">
+                <div style="float: left; padding-left: 15px;">
+                    <div class="checkbox icheck">
+                        <label>
+                            @Html.CheckBoxFor(m => m.RememberMe)
+                            @Resources.Constant.REMEMBER_ME
+                        </label>
+                    </div>
+                </div><!-- /.col -->
+                <div style="float: right; padding-right: 15px;">
+                    <button type="submit" class="btn btn-primary btn-block btn-flat"><i class="fa fa-sign-in"></i> &nbsp; @Resources.Constant.SIGNIN</button>
+                </div><!-- /.col -->
+            </div>
+        }
+
+        @Html.ActionLink(@Resources.Constant.REGISTER_LINK, "Register")
+    </div><!-- /.login-box-body -->
+</div><!-- /.login-box -->
+@section Scripts {
+    <script>
+        $(function () {
+            $('input').iCheck({
+                checkboxClass: 'icheckbox_flat-blue',
+                radioClass: 'iradio_flat-blue',
+                increaseArea: '20%' // optional
+            });
+        });
+    </script>
+}

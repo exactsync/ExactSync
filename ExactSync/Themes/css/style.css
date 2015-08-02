@@ -1,0 +1,5 @@
+﻿.box-wrap {
+    word-break: break-all; 
+    word-wrap: break-word; 
+    margin-bottom: 5px !important;
+}

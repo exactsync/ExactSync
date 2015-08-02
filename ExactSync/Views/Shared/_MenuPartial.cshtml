@@ -1,0 +1,59 @@
+﻿@using Microsoft.AspNet.Identity
+@using ExactSync.Helpers
+
+<!-- =============================================== -->
+<!-- Left side column. contains the sidebar -->
+<aside class="main-sidebar">
+    <!-- sidebar: style can be found in sidebar.less -->
+    <section class="sidebar">
+        @if (Request.IsAuthenticated)
+        {
+            var name = User.Identity.GetUserName().ToString();
+            <!-- Sidebar user panel -->
+            <div class="user-panel">
+                <div class="pull-left image">
+                    <img src="@Url.Content("~/Themes/img/user.jpg")" class="img-circle" alt="User Image" style="border-color: white; border-width: thin; border-style: dashed;" />
+                </div>
+                <div class="pull-left info">
+                    <p>@name</p>
+                    <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
+                </div>
+            </div>
+            <br />
+        }
+
+        <ul class="sidebar-menu">
+            <li class="@Html.IsSelected(controller: "Home", action: "Index, Detail")">
+                <a href="@Url.Action("Index", "Home")">
+                    <i class="fa fa-dashboard"></i>
+                    <span>@Resources.Constant.DASHBOARD</span>
+                </a>
+            </li>
+
+            <li class="treeview @Html.IsSelected(controller: "Dropbox, ExactOnline")">
+                <a href="#">
+                    <i class="fa fa-cogs"></i>
+                    <span>@Resources.Constant.SETTINGS</span>
+                    <i class="fa fa-angle-left pull-right"></i>
+                </a>
+                <ul class="treeview-menu">
+                    <li class="@Html.IsSelected(controller: "Dropbox", action: "Index, Authorize, Disconnect")">
+                        <a href="@Url.Action("Index", "Dropbox")">
+                            <i class="fa fa-dropbox"></i>
+                            @Resources.Constant.DROPBOX_ACCOUNT
+                        </a>
+                    </li>
+                    <li class="@Html.IsSelected(controller: "ExactOnline", action: "Index, Authorize, Disconnect")">
+                        <a href="@Url.Action("Index", "ExactOnline")">
+                            <i class="fa fa-cloud-download"></i>
+                            @Resources.Constant.EXACTONLINE_ACCOUNT
+                        </a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+        <!-- move to menu-->
+    </section>
+    <!-- /.sidebar -->
+</aside>
+<!-- =============================================== -->

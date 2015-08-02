@@ -1,0 +1,11 @@
+ExactSync/App_Data/*.mdf
+ExactSync/App_Data/*.ldf
+ExactSync/bin
+ExactSync/obj
+TestResults/
+ExactSync.Tests/bin
+ExactSync.Tests/obj
+[Bb]in
+[Oo]bj
+*.suo
+*.user

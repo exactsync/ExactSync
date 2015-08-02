@@ -1,0 +1,75 @@
+﻿@model IEnumerable<ExactSync.Models.SyncHistoryDetailModel>
+
+@{
+    ViewBag.Title = "Detail";
+}
+
+<!-- table: sync history  -->
+<div class="box box-info">
+    <div class="box-header with-border">
+        <h3 class="box-title">@Resources.Constant.SYNC_HISTORY_DETAILS</h3>
+    </div><!-- /.box-header -->
+    <div class="box-body">
+        <div class="table-responsive">
+            <table class="table no-margin">
+                <thead>
+                    <tr>
+                        <th width="2%">&nbsp;</th>
+                        <th>@Html.DisplayNameFor(model => model.FileName)</th>
+                        <th>@Html.DisplayNameFor(model => model.MimeType)</th>
+                        <th>@Html.DisplayNameFor(model => model.Size)</th>
+                        <th>@Html.DisplayNameFor(model => model.DateTimeModified)</th>
+                        <th class="text-center">@Html.DisplayNameFor(model => model.Action)</th>
+                        <th class="text-center">@Html.DisplayNameFor(model => model.Status)</th>
+                        <th>@Html.DisplayNameFor(model => model.Remark)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model != null && Model.Count() > 0)
+                    {
+                        var count = 0;
+                        foreach (var item in Model)
+                        {
+                            count++;
+                            <tr>
+                                <td style="white-space:nowrap" class="text-right">@count .</td>
+                                <td style="white-space:nowrap">@Html.DisplayFor(modelItem => item.FileName)</td>
+                                <td style="white-space:nowrap">@Html.DisplayFor(modelItem => item.MimeType)</td>
+                                <td style="white-space:nowrap">@Html.DisplayFor(modelItem => item.Size)</td>
+                                <td style="white-space:nowrap">@Html.DisplayFor(modelItem => item.DateTimeModified)</td>
+                                <td style="white-space:nowrap" class="text-center">
+                                    <span class="label label-info" style="display:inline-block; min-width: 60px; font-size: 88%;">
+                                        @Html.DisplayFor(modelItem => item.Action)
+                                    </span>
+                                </td>
+                                @if (@item.Status)
+                                {
+                                    <td class="text-center">
+                                        <span class="label label-success" style="display:inline-block; min-width: 60px; font-size: 88%;">
+                                            @Resources.Constant.SUCCESS
+                                        </span>
+                                    </td>
+                                }
+                                else
+                                {
+                                    <td class="text-center">
+                                        <span class="label label-danger" style="display:inline-block; min-width: 60px; font-size: 88%;">
+                                            @Resources.Constant.FAIL
+                                        </span>
+                                    </td>
+                                }
+                                <td>@Html.DisplayFor(modelItem => item.Remark)</td>
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="7" class="text-center text-primary">@Resources.Constant.NO_RECORD_FOUND</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div><!-- /.table-responsive -->
+    </div><!-- /.box-body -->
+</div><!-- /.box -->

@@ -1,0 +1,63 @@
+﻿@model ExactSync.Models.ExactOnlineAccountModel
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<div class="box">
+    <div class="box-header">
+        <h3 class="box-title">@Resources.Constant.EXACTONLINE_ACCOUNT_INFO</h3>
+    </div>
+    <div class="box-body table-responsive">
+        <table class="table">
+            @if (Model != null)
+            {
+                <tr>
+                    <td><div class="well-sm">@Html.DisplayNameFor(model => model.AccessToken)</div></td>
+                    <td><div class="text-muted well well-sm no-shadow box-wrap">@Html.DisplayFor(model => model.AccessToken)</div></td>
+                </tr>
+                <tr>
+                    <td><div class="well-sm">@Html.DisplayNameFor(model => model.TokenType)</div></td>
+                    <td><div class="text-muted well well-sm no-shadow box-wrap">@Html.DisplayFor(model => model.TokenType)</div></td>
+                </tr>
+                <tr>
+                    <td><div class="well-sm">@Html.DisplayNameFor(model => model.RefreshToken)</div></td>
+                    <td><div class="text-muted well well-sm no-shadow box-wrap">@Html.DisplayFor(model => model.RefreshToken)</div></td>
+                </tr>
+                <tr>
+                    <td><div class="well-sm" style="white-space: nowrap;">@Html.DisplayNameFor(model => model.AccessTokenExpirationUtc)</div></td>
+                    <td style="padding-top:15px;"><span class="label label-warning" style="font-size: 92%;">@Html.DisplayFor(model => model.AccessTokenExpirationUtc)</span></td>
+                </tr>
+            }
+            else
+            {
+                <tr>
+                    <td colspan="2" class="text-center text-primary">@Resources.Constant.NO_RECORD_FOUND</td>
+                </tr>
+            }
+        </table>
+    </div><!-- /.box-body -->
+</div><!-- /.box -->
+
+<br />
+
+@if (Model != null)
+{
+    using (Html.BeginForm("Disconnect", "Exactonline", FormMethod.Post, new { id = "exactonlineDisconnect", @class = "" }))
+    {
+        @Html.AntiForgeryToken()
+        <input type="hidden" name="id" value="@Html.DisplayFor(model => model.Id)" />
+        <button type="submit" class="btn btn-social btn-google-plus"><i class="fa fa-cloud-download"></i> @Resources.Constant.DISCONNECT_EXACTONLINE</button>
+    }
+}
+else
+{
+    using (Html.BeginForm("Connect", "Exactonline", FormMethod.Post, new { id = "exactonlineConnect", @class = "" }))
+    {
+        @Html.AntiForgeryToken()
+        <button type="submit" class="btn btn-social btn-dropbox"><i class="fa fa-cloud-download"></i> @Resources.Constant.CONNECT_EXACTONLINE</button>
+    }
+}
+
+<br />
+<br />
